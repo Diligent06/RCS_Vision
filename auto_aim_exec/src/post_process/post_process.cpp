@@ -190,10 +190,13 @@ namespace post_process
       std::lock_guard<std::mutex> imu_lock(imu_mutex);
       pw = predictkalman.predict(pc, q);
     }
-    pw[2] = cal_gravity_compensation(bullet_speed, pw);
+    //std::cout << pc[0] << ' ' << pc[1] << ' ' << pc[2] << std::endl; // pc: yaw pitch distance
+    // std::cout << "angle_pitch:" << std::atan2(pc[1], std::sqrt(pc[0]*pc[0]+pc[2]*pc[2])) << std::endl;
+    //std::cout << pw[0] << ' ' << pw[1] << ' ' << pw[2] << std::endl;
+    pc[1] = cal_gravity_compensation(bullet_speed, pc);
     output_msg.distance = pw.norm();
     output_msg.angle_yaw = std::atan2(pw[0], pw[1]) / PI * 180.f;
-    output_msg.angle_pitch = std::atan2(pw[2], std::sqrt(pw[0]*pw[0]+pw[1]*pw[1])) * 180.f / PI;
+    output_msg.angle_pitch = std::atan2(pc[1], std::sqrt(pc[0]*pc[0]+pc[2]*pc[2])) * 180.f / PI;
     std::cout << "dis:" << output_msg.distance << ";yaw:" << output_msg.angle_yaw << ";pitch:" << output_msg.angle_pitch << std::endl; 
     // gravity compensation
     // float fly_time = pc.norm() / bullet_speed / 100.0f;
@@ -376,17 +379,17 @@ namespace post_process
     big.push_back(cv::Point3f(BIG_ARMOR_LENGTH/2, BIG_ARMOR_WIDTH/2, 0));   // 左下灯条角点
     big.push_back(cv::Point3f(-BIG_ARMOR_LENGTH/2, BIG_ARMOR_WIDTH/2, 0));  // 右下灯条角点
   }
-  double PostProcessNode::cal_gravity_compensation(double &bullet_speed, Eigen::Vector3d &_pw)
+  double PostProcessNode::cal_gravity_compensation(double &bullet_speed, Eigen::Vector3d &_pc)
   {
-    double target_high = _pw[2]/100.0;
+    double target_high = _pc[1]/100.0;
     double theta = 0;
     double fly_time = 0;
     double delta_h = 0;
     for(int i = 0; i < 10; i++)
     {
-      theta = std::atan(target_high / _pw[1]/100.0);
-      fly_time = _pw[1] / 100.0 / (bullet_speed * std::cos(theta));
-      delta_h = _pw[2] / 100.0 - (target_high - 1.0/2.0*gravity*fly_time*fly_time);
+      theta = std::atan(target_high / _pc[2]/100.0);
+      fly_time = _pc[2] / 100.0 / (bullet_speed * std::cos(theta));
+      delta_h = _pc[1] / 100.0 - (target_high - 1.0/2.0*gravity*fly_time*fly_time);
       target_high += delta_h;
     }
     //std::cout << "target_high:" << target_high * 100 << ";final_high:" << _pw[2] << std::endl;

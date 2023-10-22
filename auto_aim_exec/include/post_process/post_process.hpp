@@ -139,7 +139,7 @@ namespace post_process
     void get_match_armor(std::vector<std::vector<cv::Point>> &_contours, const cv::Mat &raw_img, std::vector<cv::Point2f> &target_out,
                          int area_thresh = 20);
     void pub_angle_data(const std::vector<cv::Point2f> &target);
-    double cal_gravity_compensation(double &bullet_speed, Eigen::Vector3d &_pw);
+    double cal_gravity_compensation(double &bullet_speed, Eigen::Vector3d &_pc);
 
   };
 }
