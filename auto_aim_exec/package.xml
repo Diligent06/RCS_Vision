@@ -1,0 +1,40 @@
+<?xml version="0.0"?>
+<?xml-model
+   href="http://download.ros.org/schema/package_format3.xsd"
+   schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>auto_aim_exec</name>
+  <version>0.1.0</version>
+  <description>A template for ROS packages.</description>
+  <maintainer email="1774656602@qq.com">S.R.P</maintainer>
+  <license>XMU</license>
+  <url type="website"></url>
+  <url type="bugtracker"></url>
+  <author email="1774656602@qq.com">S.R.P</author>
+
+  <!-- buildtool_depend: dependencies of the build process -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- depend: build, export, and execution dependency -->
+  <depend>rclcpp</depend>
+  <depend>rclcpp_components</depend>
+  <depend>sensor_msgs</depend>
+  <depend>image_transport</depend>
+  <depend>image_transport_plugins</depend>
+  <depend>camera_info_manager</depend>
+  <depend>CUDA</depend>
+  <depend>OpenCV</depend>
+  <depend>TensorRT</depend>
+  <depend>auto_aim_interface</depend>
+  <depend>mindvision_camera</depend>
+
+  <exec_depend>camera_calibration</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
