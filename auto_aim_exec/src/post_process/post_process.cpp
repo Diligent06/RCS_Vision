@@ -195,7 +195,7 @@ namespace post_process
     //std::cout << pw[0] << ' ' << pw[1] << ' ' << pw[2] << std::endl;
     pc[1] = cal_gravity_compensation(bullet_speed, pc);
     output_msg.distance = pw.norm();
-    output_msg.angle_yaw = std::atan2(pw[0], pw[1]) / PI * 180.f;
+    output_msg.angle_yaw = std::atan2(pc[0], pc[2]) / PI * 180.f;
     output_msg.angle_pitch = std::atan2(pc[1], std::sqrt(pc[0]*pc[0]+pc[2]*pc[2])) * 180.f / PI;
     std::cout << "dis:" << output_msg.distance << ";yaw:" << output_msg.angle_yaw << ";pitch:" << output_msg.angle_pitch << std::endl; 
     // gravity compensation
